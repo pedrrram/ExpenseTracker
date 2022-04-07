@@ -521,6 +521,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 3.5rem;
 }
 
+.my-10{
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
 .mt-28{
   margin-top: 7rem;
 }
@@ -545,6 +550,22 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 1.5rem;
 }
 
+.mt-16{
+  margin-top: 4rem;
+}
+
+.mr-8{
+  margin-right: 2rem;
+}
+
+.ml-8{
+  margin-left: 2rem;
+}
+
+.ml-1{
+  margin-left: 0.25rem;
+}
+
 .block{
   display: block;
 }
@@ -555,6 +576,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .flex{
   display: flex;
+}
+
+.table{
+  display: table;
 }
 
 .hidden{
@@ -571,6 +596,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-36{
   height: 9rem;
+}
+
+.h-full{
+  height: 100%;
 }
 
 .w-screen{
@@ -617,6 +646,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 75%;
 }
 
+.w-4{
+  width: 1rem;
+}
+
 .min-w-max{
   min-width: -webkit-max-content;
   min-width: -moz-max-content;
@@ -643,6 +676,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: max-content;
 }
 
+.max-w-full{
+  max-width: 100%;
+}
+
+.max-w-7xl{
+  max-width: 80rem;
+}
+
+.max-w-6xl{
+  max-width: 72rem;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
@@ -663,6 +708,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   flex-basis: 50%;
 }
 
+.border-collapse{
+  border-collapse: collapse;
+}
+
 .resize-none{
   resize: none;
 }
@@ -673,6 +722,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .items-center{
   align-items: center;
+}
+
+.justify-start{
+  justify-content: flex-start;
 }
 
 .justify-center{
@@ -695,6 +748,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .gap-x-8{
   -moz-column-gap: 2rem;
        column-gap: 2rem;
+}
+
+.gap-y-4{
+  row-gap: 1rem;
+}
+
+.gap-y-8{
+  row-gap: 2rem;
 }
 
 .divide-x-2 > :not([hidden]) ~ :not([hidden]){
@@ -738,6 +799,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.375rem;
 }
 
+.rounded-2xl{
+  border-radius: 1rem;
+}
+
 .border{
   border-width: 1px;
 }
@@ -764,6 +829,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-slate-200{
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
+}
+
+.border-rose-600{
+  --tw-border-opacity: 1;
+  border-color: rgb(225 29 72 / var(--tw-border-opacity));
+}
+
+.border-sky-800{
+  --tw-border-opacity: 1;
+  border-color: rgb(7 89 133 / var(--tw-border-opacity));
 }
 
 .bg-slate-300{
@@ -801,6 +876,21 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(5 150 105 / var(--tw-bg-opacity));
 }
 
+.bg-rose-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 113 133 / var(--tw-bg-opacity));
+}
+
+.bg-sky-600{
+  --tw-bg-opacity: 1;
+  background-color: rgb(2 132 199 / var(--tw-bg-opacity));
+}
+
+.bg-slate-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
 .bg-cover{
   background-size: cover;
 }
@@ -815,6 +905,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .p-4{
   padding: 1rem;
+}
+
+.p-3{
+  padding: 0.75rem;
 }
 
 .py-4{
@@ -877,6 +971,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.5rem;
 }
 
+.px-3{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .pr-2{
   padding-right: 0.5rem;
 }
@@ -937,6 +1036,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-rose-600{
   --tw-text-opacity: 1;
   color: rgb(225 29 72 / var(--tw-text-opacity));
+}
+
+.text-slate-700{
+  --tw-text-opacity: 1;
+  color: rgb(51 65 85 / var(--tw-text-opacity));
+}
+
+.text-slate-600{
+  --tw-text-opacity: 1;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
 }
 
 .shadow-md{
@@ -1185,6 +1294,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   content: var(--tw-content);
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(30 41 59 / var(--tw-ring-opacity));
+}
+
+.odd\:bg-slate-400:nth-child(odd){
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
+.odd\:bg-slate-100:nth-child(odd){
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.even\:bg-slate-200:nth-child(even){
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+.even\:bg-slate-50:nth-child(even){
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
 }
 
 .checked\:bg-rose-700:checked{

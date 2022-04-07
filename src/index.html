@@ -8,10 +8,10 @@
   <title>Expense Tracker</title>
 </head>
 <body dir="rtl">
-  <header class="w-screen">
+  <header class="w-full">
     <img src="./assets/images/banner.png" alt="banner" class="w-full bg-cover">
   </header>
-  <main class="w-screen my-0 mx-auto -mt-28 z-50">
+  <main class="w-full -mt-28 z-50 flex flex-col">
     <div class="flex justify-between w-4/5 my-0 mx-auto gap-x-8">
       <div id="form" class="flex-1 px-5 py-6 bg-white relative rounded-md shadow-lg border-2 border-slate-200">
         <form>
@@ -60,7 +60,7 @@
         </form>
       </div>
     
-      <div class="flex-1 flex flex-col">
+      <div class="flex-1 flex flex-col justify-center items-center gap-y-8">
         <div class="px-5 py-6 w-full bg-white relative rounded-md shadow-lg 
         border-2 border-slate-200 flex justify-between items-center divide-x-4 divide-x-reverse divide-slate-200 text-xl">
           <div class="flex-1 flex flex-col items-center justify-between">
@@ -72,8 +72,57 @@
             <span class="text-rose-600 pt-5">۴۷۶٫۰۰۰٫۰۰۰</span>
           </div>
         </div>
+        <div class="px-5 py-6 w-full h-full bg-white relative rounded-md shadow-lg 
+        border-2 border-slate-200"></div>
       </div>
     </div>
+
+    <div class="flex justify-start  w-4/5 my-10 mx-auto">
+      <table class="w-full border border-collapse border-slate-200">
+        <thead>
+          <tr class="bg-slate-200 text-slate-700">
+            <th class="py-5 px-4">ردیف</th>
+            <th class="py-5 px-4">مبلغ</th>
+            <th class="py-5 px-4">تاریخ</th>
+            <th class="py-5 px-4">نوع هزینه</th>
+            <th class="py-5 px-4">توضیحات</th>
+          </tr>
+        </thead>
+        <tbody class=" text-center text-slate-600">
+          <tr class="odd:bg-slate-100 even:bg-slate-50">
+            <td class="py-4">1</td>
+            <td class="py-4">50,000</td>
+            <td class="py-4">1400/05/15</td>
+            <td class="py-4">هزینه</td>
+            <td class="py-4">
+              <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+              <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            </td>
+          </tr>
+          <tr class="odd:bg-slate-100 even:bg-slate-50">
+            <td class="py-4">2</td>
+            <td class="py-4">50,000</td>
+            <td class="py-4">1400/05/15</td>
+            <td class="py-4">هزینه</td>
+            <td class="py-4">
+              <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+              <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            </td>
+          </tr>
+          <tr class="odd:bg-slate-100 even:bg-slate-50">
+            <td class="py-4">1</td>
+            <td class="py-4">50,000</td>
+            <td class="py-4">1400/05/15</td>
+            <td class="py-4">هزینه</td>
+            <td class="py-4">
+              <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+              <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </main>
 
   <script src="./js/app.js"></script>
