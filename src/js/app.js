@@ -27,6 +27,18 @@ document.addEventListener("DOMContentLoaded", showTransactionsOnloaded);
 // show income and expense value on board
 document.addEventListener("DOMContentLoaded", updateIncomeAndExpense);
 
+// add eventlisteners to delete buttons
+document.addEventListener("DOMContentLoaded", () => {
+  // delete transaction event
+  let deleteBtns = document.getElementsByClassName('deleteTransaction')
+  if(deleteBtns) {
+    deleteBtns = [...deleteBtns]
+    deleteBtns.forEach(deleteBtn => {
+      deleteBtn.addEventListener("click", deleteTransaction)
+    })
+  }
+})
+
 // clear elements having error class
 const clearInputValidationError = () => {
   let errors = [...document.getElementsByClassName('error')];
@@ -38,7 +50,7 @@ const clearInputValidationError = () => {
 }
 
 // get input values
-const getFormInputValues = () => {
+const  getFormInputValues = () => {
   // get type --> Income or Expense
   const [incomeType, expenseType] = [...document.getElementsByName('amountType').values()]
   let type = null;
@@ -151,11 +163,21 @@ const addTransaction = (transactionInfo) => {
       <td class="py-4">${transactionInfo.date.year.toPersianDigits()}/${transactionInfo.date.month.toPersianDigits()}/${transactionInfo.date.day.toPersianDigits()}</td>
       <td class="py-4">${transactionType}</td>
       <td class="py-4">
-        <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
-        <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+        <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+        <button class="deleteTransaction border 
+        border-rose-600 text-rose-600 rounded-md py-2 px-5" data-id="${transactionInfo.id}">حذف</button>
       </td>
   `;
   document.getElementById('tbody').appendChild(row)
+
+    // add eventlistener for new row
+    let deleteBtns = document.getElementsByClassName('deleteTransaction')
+    if(deleteBtns) {
+      deleteBtns = [...deleteBtns]
+      deleteBtns.forEach(deleteBtn => {
+        deleteBtn.addEventListener("click", deleteTransaction)
+      })
+    }
 
   addToLocalStorage(transactionInfo)
 }
@@ -203,8 +225,9 @@ function showTransactionsOnloaded()  {
           <td class="py-4">${tr.date.year.toPersianDigits()}/${tr.date.month.toPersianDigits()}/${tr.date.day.toPersianDigits()}</td>
           <td class="py-4">${transactionType}</td>
           <td class="py-4">
-            <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
-            <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+            <button class="deleteTransaction border 
+            border-rose-600 text-rose-600 rounded-md py-2 px-5" data-id="${tr.id}">حذف</button>
           </td>
       `;
       document.getElementById('tbody').appendChild(row)
@@ -213,6 +236,7 @@ function showTransactionsOnloaded()  {
 
 }
 
+// calculate income & expense value and show in document
 function updateIncomeAndExpense() {
   let transactions = getFromLocalStorage()
   if(transactions.length) {
@@ -241,4 +265,24 @@ String.prototype.toPersianDigits= function(){
   return this.replace(/[0-9]/g, function(w){
       return persianDigits[+w];
   });
+}
+
+// delete transaction element and run deleteTransactionFromLocalStorage
+function deleteTransaction(e) {
+  const transactionId = e.target.getAttribute("data-id");
+  transactions -= 1
+  document.getElementById('tbody').innerHTML = ''
+  deleteTransactionFromLocalStorage(transactionId)
+  showTransactionsOnloaded()
+  updateIncomeAndExpense()
+}
+
+const deleteTransactionFromLocalStorage = (transactionId) => {
+  const transactions = getFromLocalStorage()
+  transactions.map((tr, index) => {
+    if(tr.id == transactionId) {
+      transactions.splice(index, 1)
+    }
+  })
+  localStorage.setItem("transaction", JSON.stringify(transactions));
 }

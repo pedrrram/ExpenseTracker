@@ -509,12 +509,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.75rem;
 }
 
-.ml-1{
-  margin-left: 0.25rem;
-}
-
 .mt-4{
   margin-top: 1rem;
+}
+
+.ml-1{
+  margin-left: 0.25rem;
 }
 
 .block{
