@@ -5,5 +5,8 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.0.23"
+  },
+  "dependencies": {
+    "num2persian": "^3.2.2"
   }
 }

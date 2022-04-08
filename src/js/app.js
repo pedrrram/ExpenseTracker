@@ -1,3 +1,4 @@
+
 const form = document.getElementById('form');
 let transactions = 0;
 
@@ -6,6 +7,8 @@ form.addEventListener('submit', (e) => {
 
   // clear errors
   clearInputValidationError()
+  // clear persian amount
+  document.getElementById('amountInPersian').innerHTML = ''
 
   const transactionInfo = getFormInputValues();
   if(validateInputs(transactionInfo)) {
@@ -269,7 +272,7 @@ String.prototype.toPersianDigits= function(){
 
 // delete transaction element and run deleteTransactionFromLocalStorage
 function deleteTransaction(e) {
-  const transactionId = e.target.getAttribute("data-id");
+  const transactionId = e.target.getAttribute('data-id');
   transactions -= 1
   document.getElementById('tbody').innerHTML = ''
   deleteTransactionFromLocalStorage(transactionId)
@@ -284,5 +287,11 @@ const deleteTransactionFromLocalStorage = (transactionId) => {
       transactions.splice(index, 1)
     }
   })
-  localStorage.setItem("transaction", JSON.stringify(transactions));
+  localStorage.setItem('transaction', JSON.stringify(transactions));
 }
+
+// convert amount number to persian words
+document.getElementById('amountValue').addEventListener('keyup', (e) => {
+  const persianAmount = Num2persian(e.target.value) + ' تومان'
+  document.getElementById('amountInPersian').innerHTML = persianAmount
+})
