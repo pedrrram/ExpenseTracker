@@ -9,13 +9,13 @@ form.addEventListener('submit', (e) => {
 
   const [ type, transactionInfo ] = getFormInputValues();
   if(validateInputs(transactionInfo)) {
-    console.log('okay :)')
+    addTransaction(transactionInfo)
     form.reset();
-  } else {
-    console.log('not okay :(')
   }
-
 })
+
+// show transactions from local storage when dom loaded
+document.addEventListener("DOMContentLoaded", showTransactionsOnloaded);
 
 const clearInputValidationError = () => {
   let errors = [...document.getElementsByClassName('error')];
@@ -49,6 +49,7 @@ const getFormInputValues = () => {
   const description = document.getElementById('description').value;
 
   const transactionInfo = {
+    id: genenrateID(),
     type,
     amount,
     date,
@@ -67,7 +68,7 @@ const makeErrorElement = (message) => {
 }  
 
 // validate form inputs
-function validateInputs(transactionInfo) {
+const validateInputs = (transactionInfo) => {
 
   let { type, amount, date, description } = transactionInfo;
 
@@ -119,4 +120,80 @@ function validateInputs(transactionInfo) {
     return true
   }
   return false
+}
+
+const addTransaction = (transactionInfo) => {
+  let transactionType;
+  if(transactionInfo.type === 'income') {
+    transactionType = 'درآمد';
+  } else {
+    transactionType = 'هزینه';
+  }
+  // add new row to table
+  let row = document.createElement('tr');
+  row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
+  row.innerHTML = `
+      <td class="py-4">${transactions.length + 1}</td>
+      <td class="py-4">${transactionInfo.amount}</td>
+      <td class="py-4">${transactionInfo.date.year}/${transactionInfo.date.month}/${transactionInfo.date.day}</td>
+      <td class="py-4">${transactionType}</td>
+      <td class="py-4">
+        <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+        <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+      </td>
+  `;
+  document.getElementById('tbody').appendChild(row)
+
+  addToLocalStorage(transactionInfo)
+}
+
+// adding transaction info to local storage
+const addToLocalStorage = (transactionInfo) => {
+  // get transactions array form local storage
+  let transaction = getFromLocalStorage();
+  transaction.push(transactionInfo);
+  localStorage.setItem("transaction", JSON.stringify(transaction));
+}
+
+// get data from local storage
+const getFromLocalStorage = () => {
+  let transactions;
+  let getTransactionLS = localStorage.getItem("transaction");
+  if (getTransactionLS) {
+    transactions = JSON.parse(getTransactionLS);
+  } else {
+    transactions = [];
+  }
+  return transactions;
+}
+
+function showTransactionsOnloaded()  {
+  let transactions = getFromLocalStorage()
+  transactions.forEach((tr, index) => {
+    let transactionType;
+    if(tr.type === 'income') {
+      transactionType = 'درآمد';
+    } else {
+      transactionType = 'هزینه';
+    }
+
+    let row = document.createElement('tr');
+    row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
+    row.innerHTML = `
+        <td class="py-4">${index + 1}</td>
+        <td class="py-4">${tr.amount}</td>
+        <td class="py-4">${tr.date.year}/${tr.date.month}/${tr.date.day}</td>
+        <td class="py-4">${transactionType}</td>
+        <td class="py-4">
+          <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+          <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+        </td>
+    `;
+    document.getElementById('tbody').appendChild(row)
+  })
+}
+
+//generate id
+const genenrateID = () => {
+  return Math.floor(Math.random() * 100000000);
 }
