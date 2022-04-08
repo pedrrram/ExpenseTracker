@@ -65,11 +65,11 @@
         border-2 border-slate-200 flex justify-between items-center divide-x-4 divide-x-reverse divide-slate-200 text-xl">
           <div class="flex-1 flex flex-col items-center justify-between">
             <span class="font-bold">درآمد</span>
-            <span class="text-emerald-600 pt-5">۶۵۴٫۰۰۰٫۰۰۰</span>
+            <span id="incomeValue" class="text-emerald-600 pt-5">۰</span>
           </div>
           <div class="flex-1 flex flex-col items-center justify-between">
             <span class="font-bold">مخارج</span>
-            <span class="text-rose-600 pt-5">۴۷۶٫۰۰۰٫۰۰۰</span>
+            <span id="expenseValue" class="text-rose-600 pt-5">۰</span>
           </div>
         </div>
         <div class="px-5 py-6 w-full h-full bg-white relative rounded-md shadow-lg 
@@ -78,7 +78,7 @@
     </div>
 
     <div class="flex justify-start  w-4/5 max-w-screen-2xl my-10 mx-auto">
-      <table class="w-full rounded-lg">
+      <table id="table" class="w-full rounded-lg hidden">
         <thead>
           <tr class="bg-slate-200 text-slate-700">
             <th class="py-5 px-4 rounded-tr-xl">ردیف</th>

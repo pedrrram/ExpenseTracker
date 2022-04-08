@@ -1,5 +1,5 @@
 const form = document.getElementById('form');
-const transactions = [];
+let transactions = 0;
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -7,16 +7,27 @@ form.addEventListener('submit', (e) => {
   // clear errors
   clearInputValidationError()
 
-  const [ type, transactionInfo ] = getFormInputValues();
+  const transactionInfo = getFormInputValues();
   if(validateInputs(transactionInfo)) {
+    // transactions number
+    transactions += 1
+    // show table
+    document.getElementById('table').classList.remove('hidden')
+    //add transaction function
     addTransaction(transactionInfo)
+    // update income & expense amount state
+    updateIncomeAndExpense(transactionInfo)
+    // clear form 
     form.reset();
   }
 })
 
 // show transactions from local storage when dom loaded
 document.addEventListener("DOMContentLoaded", showTransactionsOnloaded);
+// show income and expense value on board
+document.addEventListener("DOMContentLoaded", updateIncomeAndExpense);
 
+// clear elements having error class
 const clearInputValidationError = () => {
   let errors = [...document.getElementsByClassName('error')];
   if(errors) {
@@ -26,6 +37,7 @@ const clearInputValidationError = () => {
   }
 }
 
+// get input values
 const getFormInputValues = () => {
   // get type --> Income or Expense
   const [incomeType, expenseType] = [...document.getElementsByName('amountType').values()]
@@ -56,7 +68,7 @@ const getFormInputValues = () => {
     description
   };
 
-  return [ type, transactionInfo ]
+  return transactionInfo
 }
 
 // create Error element
@@ -122,6 +134,7 @@ const validateInputs = (transactionInfo) => {
   return false
 }
 
+// add new row to table & add to local storage
 const addTransaction = (transactionInfo) => {
   let transactionType;
   if(transactionInfo.type === 'income') {
@@ -133,9 +146,9 @@ const addTransaction = (transactionInfo) => {
   let row = document.createElement('tr');
   row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
   row.innerHTML = `
-      <td class="py-4">${transactions.length + 1}</td>
-      <td class="py-4">${transactionInfo.amount}</td>
-      <td class="py-4">${transactionInfo.date.year}/${transactionInfo.date.month}/${transactionInfo.date.day}</td>
+      <td class="py-4">${String(transactions + 1).toPersianDigits()}</td>
+      <td class="py-4">${transactionInfo.amount.toPersianDigits()}</td>
+      <td class="py-4">${transactionInfo.date.year.toPersianDigits()}/${transactionInfo.date.month.toPersianDigits()}/${transactionInfo.date.day.toPersianDigits()}</td>
       <td class="py-4">${transactionType}</td>
       <td class="py-4">
         <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
@@ -167,33 +180,65 @@ const getFromLocalStorage = () => {
   return transactions;
 }
 
+// show transactions table from local storage when DOM loaded 
 function showTransactionsOnloaded()  {
   let transactions = getFromLocalStorage()
-  transactions.forEach((tr, index) => {
-    let transactionType;
-    if(tr.type === 'income') {
-      transactionType = 'درآمد';
-    } else {
-      transactionType = 'هزینه';
-    }
+  if(transactions.length) {
+    //show table
+    document.getElementById('table').classList.remove('hidden')
+    // create rows
+    transactions.forEach((tr, index) => {
+      let transactionType;
+      if(tr.type === 'income') {
+        transactionType = 'درآمد';
+      } else {
+        transactionType = 'هزینه';
+      }
+  
+      let row = document.createElement('tr');
+      row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
+      row.innerHTML = `
+          <td class="py-4">${(String(index + 1)).toPersianDigits()}</td>
+          <td class="py-4">${tr.amount.toPersianDigits()}</td>
+          <td class="py-4">${tr.date.year.toPersianDigits()}/${tr.date.month.toPersianDigits()}/${tr.date.day.toPersianDigits()}</td>
+          <td class="py-4">${transactionType}</td>
+          <td class="py-4">
+            <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
+            <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+          </td>
+      `;
+      document.getElementById('tbody').appendChild(row)
+    })
+  }
 
-    let row = document.createElement('tr');
-    row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
-    row.innerHTML = `
-        <td class="py-4">${index + 1}</td>
-        <td class="py-4">${tr.amount}</td>
-        <td class="py-4">${tr.date.year}/${tr.date.month}/${tr.date.day}</td>
-        <td class="py-4">${transactionType}</td>
-        <td class="py-4">
-          <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
-          <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
-        </td>
-    `;
-    document.getElementById('tbody').appendChild(row)
-  })
+}
+
+function updateIncomeAndExpense() {
+  let transactions = getFromLocalStorage()
+  if(transactions.length) {
+    let income = 0;
+    let expense = 0;
+    transactions.forEach((tr) => {
+      if(tr.type === 'income') {
+        income += Number(tr.amount)
+      } else {
+        expense += Number(tr.amount)
+      }
+    })
+    document.getElementById('incomeValue').innerHTML = String(income).toPersianDigits()
+    document.getElementById('expenseValue').innerHTML = String(expense).toPersianDigits()
+  }
 }
 
 //generate id
 const genenrateID = () => {
   return Math.floor(Math.random() * 100000000);
+}
+
+// convert english numbers to persian
+String.prototype.toPersianDigits= function(){
+  let persianDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return this.replace(/[0-9]/g, function(w){
+      return persianDigits[+w];
+  });
 }
