@@ -474,6 +474,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+.absolute{
+  position: absolute;
+}
+
 .relative{
   position: relative;
 }
@@ -495,6 +499,26 @@ Ensure the default browser behavior of the `hidden` attribute.
 .my-10{
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
+}
+
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.my-5{
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.my-6{
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.my-8{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .-mt-28{
@@ -545,6 +569,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
+.h-screen{
+  height: 100vh;
+}
+
 .w-full{
   width: 100%;
 }
@@ -557,12 +585,32 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 33.333333%;
 }
 
+.w-screen{
+  width: 100vw;
+}
+
+.w-96{
+  width: 24rem;
+}
+
+.w-\[\]{
+  width: ;
+}
+
+.w-\[420px\]{
+  width: 420px;
+}
+
 .max-w-screen-2xl{
   max-width: 1536px;
 }
 
 .flex-1{
   flex: 1 1 0%;
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 
 .resize-none{
@@ -622,6 +670,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(226 232 240 / var(--tw-divide-opacity));
 }
 
+.overflow-hidden{
+  overflow: hidden;
+}
+
 .rounded-md{
   border-radius: 0.375rem;
 }
@@ -644,6 +696,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border{
   border-width: 1px;
+}
+
+.border-b{
+  border-bottom-width: 1px;
 }
 
 .border-slate-200{
@@ -686,12 +742,44 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(2 132 199 / var(--tw-bg-opacity));
 }
 
+.bg-slate-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
+.bg-black{
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-neutral-900{
+  --tw-bg-opacity: 1;
+  background-color: rgb(23 23 23 / var(--tw-bg-opacity));
+}
+
+.bg-neutral-900\/50{
+  background-color: rgb(23 23 23 / 0.5);
+}
+
+.bg-sky-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(14 165 233 / var(--tw-bg-opacity));
+}
+
 .bg-cover{
   background-size: cover;
 }
 
+.bg-scroll{
+  background-attachment: scroll;
+}
+
 .p-2{
   padding: 0.5rem;
+}
+
+.p-4{
+  padding: 1rem;
 }
 
 .px-5{
@@ -741,6 +829,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75rem;
 }
 
+.text-sm{
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .font-bold{
   font-weight: 700;
 }
@@ -773,6 +866,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-slate-600{
   --tw-text-opacity: 1;
   color: rgb(71 85 105 / var(--tw-text-opacity));
+}
+
+.underline{
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
+.opacity-20{
+  opacity: 0.2;
 }
 
 .shadow-lg{

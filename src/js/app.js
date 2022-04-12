@@ -30,17 +30,7 @@ document.addEventListener("DOMContentLoaded", showTransactionsOnloaded);
 // show income and expense value on board
 document.addEventListener("DOMContentLoaded", updateIncomeAndExpense);
 
-// add eventlisteners to delete buttons
-document.addEventListener("DOMContentLoaded", () => {
-  // delete transaction event
-  let deleteBtns = document.getElementsByClassName('deleteTransaction')
-  if(deleteBtns) {
-    deleteBtns = [...deleteBtns]
-    deleteBtns.forEach(deleteBtn => {
-      deleteBtn.addEventListener("click", deleteTransaction)
-    })
-  }
-})
+
 
 // clear elements having error class
 const clearInputValidationError = () => {
@@ -165,22 +155,17 @@ const addTransaction = (transactionInfo) => {
       <td class="py-4">${transactionInfo.amount.toPersianDigits()}</td>
       <td class="py-4">${transactionInfo.date.year.toPersianDigits()}/${transactionInfo.date.month.toPersianDigits()}/${transactionInfo.date.day.toPersianDigits()}</td>
       <td class="py-4">${transactionType}</td>
-      <td class="py-4">
+      <td class="py-4" data-id="${transactionInfo.id}">
         <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
         <button class="deleteTransaction border 
-        border-rose-600 text-rose-600 rounded-md py-2 px-5" data-id="${transactionInfo.id}">حذف</button>
+        border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
       </td>
   `;
   document.getElementById('tbody').appendChild(row)
 
-    // add eventlistener for new row
-    let deleteBtns = document.getElementsByClassName('deleteTransaction')
-    if(deleteBtns) {
-      deleteBtns = [...deleteBtns]
-      deleteBtns.forEach(deleteBtn => {
-        deleteBtn.addEventListener("click", deleteTransaction)
-      })
-    }
+    // add eventlistener for new row buttons
+    row.querySelector('.deleteTransaction').addEventListener("click", deleteTransaction)
+    row.querySelector('.showTransaction').addEventListener("click", showTransaction)
 
   addToLocalStorage(transactionInfo)
 }
@@ -212,28 +197,32 @@ function showTransactionsOnloaded()  {
     //show table
     document.getElementById('table').classList.remove('hidden')
     // create rows
-    transactions.forEach((tr, index) => {
+    transactions.forEach((tr) => {
       let transactionType;
       if(tr.type === 'income') {
         transactionType = 'درآمد';
       } else {
         transactionType = 'هزینه';
       }
+      let rowNumber = 0
   
       let row = document.createElement('tr');
       row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
       row.innerHTML = `
-          <td class="py-4">${(String(index + 1)).toPersianDigits()}</td>
+          <td class="py-4">${(String(rowNumber + 1)).toPersianDigits()}</td>
           <td class="py-4">${tr.amount.toPersianDigits()}</td>
           <td class="py-4">${tr.date.year.toPersianDigits()}/${tr.date.month.toPersianDigits()}/${tr.date.day.toPersianDigits()}</td>
           <td class="py-4">${transactionType}</td>
-          <td class="py-4">
+          <td class="py-4" data-id="${tr.id}">
             <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
             <button class="deleteTransaction border 
-            border-rose-600 text-rose-600 rounded-md py-2 px-5" data-id="${tr.id}">حذف</button>
+            border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
           </td>
       `;
       document.getElementById('tbody').appendChild(row)
+
+      row.querySelector('.deleteTransaction').addEventListener("click", deleteTransaction)
+      row.querySelector('.showTransaction').addEventListener("click", showTransaction)
     })
   }
 
@@ -272,7 +261,7 @@ String.prototype.toPersianDigits= function(){
 
 // delete transaction element and run deleteTransactionFromLocalStorage
 function deleteTransaction(e) {
-  const transactionId = e.target.getAttribute('data-id');
+  const transactionId = e.target.parentElement.getAttribute('data-id');
   transactions -= 1
   document.getElementById('tbody').innerHTML = ''
   deleteTransactionFromLocalStorage(transactionId)
@@ -294,4 +283,27 @@ const deleteTransactionFromLocalStorage = (transactionId) => {
 document.getElementById('amountValue').addEventListener('keyup', (e) => {
   const persianAmount = Num2persian(e.target.value) + ' تومان'
   document.getElementById('amountInPersian').innerHTML = persianAmount
+})
+
+// show transactions description
+function showTransaction(e) {
+  const transactionId = e.target.parentElement.getAttribute('data-id')
+  const transactions = getFromLocalStorage()
+  transactions.map(tr => {
+    if(tr.id == transactionId) {
+      document.querySelector('#descriptionText').innerHTML = tr.description
+    }
+  })
+  document.querySelector('#descriptionModal').classList.remove('hidden')
+  document.querySelector('#descriptionModal').classList.add('flex')
+  document.body.classList.add('overflow-hidden')
+}
+
+// close transactions desciption
+[...document.querySelectorAll('.closeDescription')].map((item) => {
+  item.addEventListener("click", () => {
+    document.querySelector('#descriptionModal').classList.remove('flex')
+    document.querySelector('#descriptionModal').classList.add('hidden')
+    document.body.classList.remove('overflow-hidden')
+  })
 })

@@ -8,7 +8,35 @@
   <script src="https://cdn.jsdelivr.net/gh/mahmoud-eskandari/NumToPersian/dist/num2persian-min.js"></script>
   <title>Expense Tracker</title>
 </head>
-<body dir="rtl">
+<body dir="rtl" class="relative">
+  <!-- delete confirm -->
+  <div id="deleteConfirm" class="w-full h-full z-50 hidden justify-center items-center absolute deleteConfirm bg-neutral-900/50">
+    <div class="flex relative flex-col bg-white border border-slate-200 rounded-md p-4 w-96">
+      <div class="flex justify-between border-b">
+        <h3 class="font-bold">حذف</h3>
+        <span class="underline cursor-pointer text-sm">بستن</span>
+      </div>
+      <p class="my-8">آیا از حذف کردن مطمئن هستید؟</p>
+      <div class="flex justify-between">
+        <button class="bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">بازگشت</button>
+        <button class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+      </div>
+    </div>
+  </div>
+  <!-- transaction's description modal -->
+  <div id="descriptionModal" class="w-full h-full hidden z-50 justify-center items-center absolute deleteConfirm bg-neutral-900/50">
+    <div class="flex relative flex-col bg-white border border-slate-200 rounded-md p-4 w-[420px]">
+      <div class="flex justify-between border-b">
+        <h3 class="font-bold">توضیحات</h3>
+        <span class="closeDescription underline cursor-pointer text-sm">بستن</span>
+      </div>
+      <p id="descriptionText" class="my-8">شرح توضیحات...</p>
+      <div class="flex">
+        <button class="closeDescription bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1 w-full">بازگشت</button>
+      </div>
+    </div>
+  </div>
+
   <header class="w-full">
     <img src="./assets/images/banner.png" alt="banner" class="w-full bg-cover">
   </header>
@@ -97,6 +125,7 @@
     </div>
 
   </main>
+
 
   <script src="./js/app.js"></script>
 </body>
