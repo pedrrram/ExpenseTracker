@@ -259,7 +259,7 @@ function showTransactionsOnloaded()  {
 // calculate income & expense value and show in document
 function updateIncomeAndExpense() {
   let transactions = getFromLocalStorage()
-  if(transactions.length) {
+  if(transactions) {
     let income = 0;
     let expense = 0;
     transactions.forEach((tr) => {
