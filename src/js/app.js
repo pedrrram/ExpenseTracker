@@ -1,6 +1,5 @@
-
 const form = document.getElementById('form');
-let transactions = 0;
+
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -12,8 +11,6 @@ form.addEventListener('submit', (e) => {
 
   const transactionInfo = getFormInputValues();
   if(validateInputs(transactionInfo)) {
-    // transactions number
-    transactions += 1
     // show table
     document.getElementById('table').classList.remove('hidden')
     //add transaction function
@@ -141,6 +138,7 @@ const validateInputs = (transactionInfo) => {
 
 // add new row to table & add to local storage
 const addTransaction = (transactionInfo) => {
+  let transactions = getFromLocalStorage()
   let transactionType;
   if(transactionInfo.type === 'income') {
     transactionType = 'درآمد';
@@ -151,7 +149,7 @@ const addTransaction = (transactionInfo) => {
   let row = document.createElement('tr');
   row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
   row.innerHTML = `
-      <td class="py-4">${String(transactions + 1).toPersianDigits()}</td>
+      <td class="py-4">${String(transactions.length + 1).toPersianDigits()}</td>
       <td class="py-4">${transactionInfo.amount.toPersianDigits()}</td>
       <td class="py-4">${transactionInfo.date.year.toPersianDigits()}/${transactionInfo.date.month.toPersianDigits()}/${transactionInfo.date.day.toPersianDigits()}</td>
       <td class="py-4">${transactionType}</td>
@@ -159,12 +157,26 @@ const addTransaction = (transactionInfo) => {
         <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
         <button class="deleteTransaction border 
         border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+        <!-- delete confirm -->
+        <div id="deleteConfirm" class="absolute w-full  h-full z-50 top-0 right-0 hidden justify-center items-center deleteConfirm bg-neutral-900/50">
+          <div class="flex  flex-col bg-white border border-slate-200 rounded-md p-4 w-96">
+            <div class="flex justify-between border-b">
+              <h3 class="font-bold">حذف</h3>
+              <span class="closeConfirm underline cursor-pointer text-sm">بستن</span>
+            </div>
+            <p class="my-8 h-auto">آیا از حذف کردن مطمئن هستید؟</p>
+            <div class="flex justify-between">
+              <button class="closeConfirm bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">بازگشت</button>
+              <button id="confirmDelete" class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            </div>
+          </div>
+        </div>
       </td>
   `;
   document.getElementById('tbody').appendChild(row)
 
     // add eventlistener for new row buttons
-    row.querySelector('.deleteTransaction').addEventListener("click", deleteTransaction)
+    row.querySelector('.deleteTransaction').addEventListener("click", confirmDelete)
     row.querySelector('.showTransaction').addEventListener("click", showTransaction)
 
   addToLocalStorage(transactionInfo)
@@ -179,7 +191,7 @@ const addToLocalStorage = (transactionInfo) => {
 }
 
 // get data from local storage
-const getFromLocalStorage = () => {
+function getFromLocalStorage() {
   let transactions;
   let getTransactionLS = localStorage.getItem("transaction");
   if (getTransactionLS) {
@@ -197,19 +209,21 @@ function showTransactionsOnloaded()  {
     //show table
     document.getElementById('table').classList.remove('hidden')
     // create rows
+    let rowNumber = 0
     transactions.forEach((tr) => {
       let transactionType;
+      rowNumber += 1
+
       if(tr.type === 'income') {
         transactionType = 'درآمد';
       } else {
         transactionType = 'هزینه';
       }
-      let rowNumber = 0
   
       let row = document.createElement('tr');
       row.classList.add('odd:bg-slate-100', 'even:bg-slate-50')
       row.innerHTML = `
-          <td class="py-4">${(String(rowNumber + 1)).toPersianDigits()}</td>
+          <td class="py-4">${(String(rowNumber)).toPersianDigits()}</td>
           <td class="py-4">${tr.amount.toPersianDigits()}</td>
           <td class="py-4">${tr.date.year.toPersianDigits()}/${tr.date.month.toPersianDigits()}/${tr.date.day.toPersianDigits()}</td>
           <td class="py-4">${transactionType}</td>
@@ -217,11 +231,25 @@ function showTransactionsOnloaded()  {
             <button class="showTransaction bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">نمایش</button>
             <button class="deleteTransaction border 
             border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+            <!-- delete confirm -->
+            <div id="deleteConfirm" class="absolute w-full  h-full z-50 top-0 right-0 hidden justify-center items-center deleteConfirm bg-neutral-900/50">
+              <div class="flex  flex-col bg-white border border-slate-200 rounded-md p-4 w-96">
+                <div class="flex justify-between border-b">
+                  <h3 class="font-bold">حذف</h3>
+                  <span class="closeConfirm underline cursor-pointer text-sm">بستن</span>
+                </div>
+                <p class="my-8 h-auto">آیا از حذف کردن مطمئن هستید؟</p>
+                <div class="flex justify-between">
+                  <button class="closeConfirm bg-sky-600 border border-sky-800 text-white rounded-md py-2 px-5 ml-1">بازگشت</button>
+                  <button id="confirmDelete" class="border border-rose-600 text-rose-600 rounded-md py-2 px-5">حذف</button>
+                </div>
+              </div>
+            </div>
           </td>
       `;
       document.getElementById('tbody').appendChild(row)
 
-      row.querySelector('.deleteTransaction').addEventListener("click", deleteTransaction)
+      row.querySelector('.deleteTransaction').addEventListener("click", confirmDelete)
       row.querySelector('.showTransaction').addEventListener("click", showTransaction)
     })
   }
@@ -259,10 +287,31 @@ String.prototype.toPersianDigits= function(){
   });
 }
 
+function confirmDelete(e) {
+  document.querySelector('#deleteConfirm').classList.remove('hidden');
+  document.querySelector('#deleteConfirm').classList.add('flex');
+  document.body.classList.add('overflow-hidden');
+
+  [...document.querySelectorAll('.closeConfirm')].map((item) => {
+    item.addEventListener("click", () => {
+      document.querySelector('#deleteConfirm').classList.remove('flex')
+      document.querySelector('#deleteConfirm').classList.add('hidden')
+      document.body.classList.remove('overflow-hidden')
+    })
+  });
+  
+  e.target.parentElement.querySelector('#confirmDelete').addEventListener("click", () => {
+    const transactionId = e.target.parentElement.getAttribute('data-id');
+    deleteTransaction(transactionId)
+    // close confirm form
+    document.body.classList.remove('overflow-hidden')
+  });
+
+}
+
+
 // delete transaction element and run deleteTransactionFromLocalStorage
-function deleteTransaction(e) {
-  const transactionId = e.target.parentElement.getAttribute('data-id');
-  transactions -= 1
+function deleteTransaction(transactionId) {
   document.getElementById('tbody').innerHTML = ''
   deleteTransactionFromLocalStorage(transactionId)
   showTransactionsOnloaded()
@@ -294,6 +343,7 @@ function showTransaction(e) {
       document.querySelector('#descriptionText').innerHTML = tr.description
     }
   })
+
   document.querySelector('#descriptionModal').classList.remove('hidden')
   document.querySelector('#descriptionModal').classList.add('flex')
   document.body.classList.add('overflow-hidden')
